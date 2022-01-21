@@ -1,7 +1,90 @@
 import "./index.css";
 import Ak from "./index.json";
-import React, { Component } from "react";
+import React, { useState } from "react";
 
+export default function Index(props) {
+  const [status, setStatus] = useState();
+  const [showComponent, setComponent] = useState();
+  const [userName, setName] = useState();
+
+  const validation = (event) => {
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+    const cEmail = Ak.filter(
+      (validationEmail) => validationEmail.Email === email
+    );
+    if (cEmail.length) {
+      const cPassword = Ak.filter(
+        (ValidationPassword) => ValidationPassword.Password === password
+      );
+      if (cPassword.length) {
+        setName(cPassword.map((name) => name.Name));
+        setComponent(true);
+        event.preventDefault();
+      } else {
+        setName("");
+        setStatus("Incorrect Password");
+      }
+      event.preventDefault();
+    } else {
+      setName("");
+      setStatus("User Not Found");
+      event.preventDefault();
+    }
+  };
+
+  return (
+    <>
+      <div id="form">
+        <form action="#" method="POST">
+          <div className="heading">
+            <label>AK GAMMING LOGIN FORM</label>
+          </div>
+
+          <div className="fillup">
+            <table border="0">
+              <tr>
+                <td>
+                  <label>E-mail</label>
+                </td>
+                <td>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="ak_gamming_08@Email.com "
+                    required
+                  />
+                </td>
+                <td>
+                  <label>Password</label>
+                </td>
+                <td>
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="enter a strong password"
+                    required
+                  />
+                </td>
+                <td>
+                  <button type="button" onClick={validation}>
+                    SUBMIT
+                  </button>
+                </td>
+              </tr>
+            </table>
+            {status}
+          </div>
+        </form>
+      </div>
+      {showComponent ? userName : null}
+    </>
+  );
+}
+
+/* --------------------------------------------usingclass-------------------------------------
 class login extends Component {
   constructor(props) {
     super(props);
@@ -97,9 +180,11 @@ class login extends Component {
   }
 }
 
-export default login;
+export default login; 
 
-/*
+----------------------------------javascript------------------------------------
+
+
 const validation = () => {
 
     let Email = document.getElementById("email").value;
@@ -133,4 +218,4 @@ const validation = () => {
             break;
         }
     }
-};*/
+}; */
